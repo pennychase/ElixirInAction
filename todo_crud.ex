@@ -1,9 +1,10 @@
 defmodule TodoList do
-alias ElixirLS.LanguageServer.Providers.FoldingRange.Token
 
   defstruct next_id: 1, entries: %{}
 
-  def new, do: %TodoList{}
+  def new(entries\\[]) do
+    Enum.reduce(entries,%TodoList{},&add_entry(&2,&1))
+  end
 
   def add_entry(todo_list, entry) do
     entry = Map.put(entry, :id, todo_list.next_id)
@@ -45,6 +46,22 @@ alias ElixirLS.LanguageServer.Providers.FoldingRange.Token
     new_entries = Map.delete(todo_list.entries, entry_id)
     %TodoList{todo_list | entries: new_entries}
   end
+end
+
+defmodule TodoList.CsvImporter do
+
+  def import(filepath) do  
+    File.stream!(filepath)
+    |> Stream.map(&String.trim_trailing(&1, "\n"))
+    |> Stream.map(&String.split(&1,","))
+    |> Stream.map(&list_to_entry/1)
+    |> TodoList.new   
+  end
+
+  defp list_to_entry([date,title]) do
+    %{date: Date.from_iso8601!(date), title: title}
+  end
+  
 end
 
 # todo_list = TodoList.new() |> 
