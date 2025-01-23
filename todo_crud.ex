@@ -1,5 +1,7 @@
 defmodule TodoList do
 
+# TodoList Struct and functions
+
   defstruct next_id: 1, entries: %{}
 
   def new(entries\\[]) do
@@ -48,6 +50,9 @@ defmodule TodoList do
   end
 end
 
+
+# Import TodoList from CSV file
+
 defmodule TodoList.CsvImporter do
 
   def import(filepath) do  
@@ -61,8 +66,30 @@ defmodule TodoList.CsvImporter do
   defp list_to_entry([date,title]) do
     %{date: Date.from_iso8601!(date), title: title}
   end
-  
 end
+
+# Implement protocols
+
+defimpl String.Chars, for: TodoList do
+  def to_string(_) do
+    "#TodoList%{ next_id:, entries: }"
+  end
+end
+
+defimpl Collectable, for: TodoList do
+  def into(original) do
+    {original, &into_callback/2}
+  end
+
+  defp into_callback(todo_list, {:cont, entry}) do
+    TodoList.add_entry(todo_list, entry)
+  end
+
+  defp into_callback(todo_list, :done), do: todo_list
+
+  defp into_callback(_todo_list, :halt), do: :ok
+end
+
 
 # todo_list = TodoList.new() |> 
 #   TodoList.add_entry(%{date: ~D[2025-01-21], title: "Tai Chi"}) |> 
@@ -70,3 +97,8 @@ end
 #   TodoList.add_entry(%{date: ~D[2025-01-25], title: "Museum"})
 
 # todo_list = TodoList.update_entry(todo_list, 3, &Map.put(&1, :date, ~D[2025-01-30])) 
+
+# IO.puts totdo_list
+
+# entries = [ %{date: ~D[2025-01-21], title: "Tai Chi"}, %{date: ~D[2025-01-21], title: "Concert"}]
+# Enum.into(entries, TodoList.new
