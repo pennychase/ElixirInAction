@@ -97,8 +97,9 @@ end
 #   TodoList.add_entry(%{date: ~D[2025-01-25], title: "Museum"})
 
 # todo_list = TodoList.update_entry(todo_list, 3, &Map.put(&1, :date, ~D[2025-01-30])) 
+# todo_list = TodoList.update_entry_field(todo_list, 3, :date, ~D[2025-02-12)
 
-# IO.puts totdo_list
+# IO.puts todo_list
 
 # entries = [ %{date: ~D[2025-01-21], title: "Tai Chi"}, %{date: ~D[2025-01-21], title: "Concert"}]
-# Enum.into(entries, TodoList.new
+# Enum.into(entries, TodoList.new)
