@@ -28,13 +28,15 @@ defmodule ServerProcess do
         {response, new_state} =
           callback_module.handle_call(request, current_state)
         send(caller, {:response, response})
+        loop(callback_module, new_state)
 
       {:cast, request} ->
         new_state = callback_module.handle_cast(request, current_state)
+        loop(callback_module, new_state)
 
-      loop(callback_module, new_state)
     end
     
+
   end
 
 end
