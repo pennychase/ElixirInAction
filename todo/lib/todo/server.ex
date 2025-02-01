@@ -3,23 +3,23 @@ defmodule Todo.Server do
 
   # Client API
   def start() do
-    GenServer.start(__MODULE__, nil, name: __MODULE__)
+    GenServer.start(__MODULE__, nil)
   end
 
-  def entries(date) do
-    GenServer.call(__MODULE__, {:entries, date})
+  def entries(todo_server, date) do
+    GenServer.call(todo_server, {:entries, date})
   end
 
-  def add_entry(new_entry) do
-    GenServer.cast(__MODULE__, {:add_entry, new_entry})
+  def add_entry(todo_server, new_entry) do
+    GenServer.cast(todo_server, {:add_entry, new_entry})
   end
 
-  def delete_entry(entry_id) do
-    GenServer.cast(__MODULE__, {:delete_entry, entry_id})
+  def delete_entry(todo_server, entry_id) do
+    GenServer.cast(todo_server, {:delete_entry, entry_id})
   end
 
-  def update_entry(entry_id, field_name, new_value) do
-    GenServer.cast(__MODULE__, {:update_entry, entry_id, field_name, new_value})
+  def update_entry(todo_server, entry_id, field_name, new_value) do
+    GenServer.cast(todo_server, {:update_entry, entry_id, field_name, new_value})
   end
 
   # Callbacks
