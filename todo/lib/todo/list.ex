@@ -6,6 +6,10 @@ defmodule Todo.List do
     Enum.reduce(entries,%Todo.List{},&add_entry(&2,&1))
   end
 
+  def size(todo_list) do
+    todo_list.entries |> map_size()
+  end
+  
   def add_entry(todo_list, entry) do
     entry = Map.put(entry, :id, todo_list.next_id)
 
