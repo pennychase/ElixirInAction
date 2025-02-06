@@ -24,6 +24,7 @@ defmodule Todo.Server do
 
   # Callbacks
   def init(name) do
+    IO.puts("Starting todo server: #{name}")
     {:ok, {name, nil}, {:continue, :init} }
   end
 

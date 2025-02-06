@@ -6,7 +6,7 @@
 # Note: the +P 2000000 sets maximum number of processes to 2 millions
 defmodule LoadTest do
   def run do
-    {:ok, cache} = Todo.Cache.start()
+    {:ok, cache} = Todo.Cache.start_link()
 
     total_processes = 1_000_000
 
