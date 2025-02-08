@@ -6,8 +6,8 @@ defmodule Todo.Database do
 
   # Client API
 
-  def start() do
-    GenServer.start(__MODULE__, nil, name: __MODULE__)
+  def start_link() do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
   def store(key, data) do
@@ -43,7 +43,7 @@ defmodule Todo.Database do
 
   defp start_workers(db_folder) do
     for i <- 0..2, into: %{} do
-      {:ok, worker_pid} = Todo.DatabaseWorker.start(db_folder)
+      {:ok, worker_pid} = Todo.DatabaseWorker.start_link(db_folder)
       {i, worker_pid}
     end
   end

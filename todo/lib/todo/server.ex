@@ -2,8 +2,8 @@ defmodule Todo.Server do
   use GenServer
 
   # Client API
-  def start(name) do
-    GenServer.start(__MODULE__, name)
+  def start_link(name) do
+    GenServer.start_link(__MODULE__, name)
   end
 
   def entries(todo_server, date) do
