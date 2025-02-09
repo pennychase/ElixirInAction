@@ -2,7 +2,7 @@ defmodule Todo.System do
 
   def start_link do
     Supervisor.start_link(
-      [ Todo.Metrics,
+      [ #Todo.Metrics,
         Todo.ProcessRegistry,
         Todo.Database,
         Todo.Cache
