@@ -1,9 +1,9 @@
 defmodule Todo.Server do
-  use GenServer
+  use GenServer, restart: :temporary
 
   # Client API
   def start_link(name) do
-    GenServer.start_link(__MODULE__, name)
+    GenServer.start_link(__MODULE__, name, name: via_tuple(name))
   end
 
   def entries(todo_server, date) do
@@ -20,6 +20,11 @@ defmodule Todo.Server do
 
   def update_entry(todo_server, entry_id, field_name, new_value) do
     GenServer.cast(todo_server, {:update_entry, entry_id, field_name, new_value})
+  end
+
+  # Utilities
+  defp via_tuple(name) do
+    Todo.ProcessRegistry.via_tuple({__MODULE__, name})
   end
 
   # Callbacks
