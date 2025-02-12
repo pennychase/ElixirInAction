@@ -39,7 +39,6 @@ defmodule SimpleRegistry do
 
   @impl GenServer
   def handle_info({:EXIT, pid, _reason}, registry) do
-    IO.puts("trap #{pid}")
     {:noreply, deregister_pid(registry, pid)}
   end
 
