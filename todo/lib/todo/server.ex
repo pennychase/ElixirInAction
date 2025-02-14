@@ -1,7 +1,7 @@
 defmodule Todo.Server do
   use GenServer, restart: :temporary
 
-  @expiry_idle_timeout :timer.seconds(10)
+  @expiry_idle_timeout :timer.seconds(60)
 
   # Client API
   def start_link(name) do
