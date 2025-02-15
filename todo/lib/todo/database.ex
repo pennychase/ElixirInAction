@@ -1,6 +1,5 @@
 defmodule Todo.Database do
 
-  @pool_size 3
   @db_folder "./persist"
 
   # API
