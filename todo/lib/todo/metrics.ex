@@ -4,7 +4,7 @@ defmodule Todo.Metrics do
   def start_link(_arg), do: Task.start_link(&loop/0)
 
   def loop() do
-    Process.sleep(:timer.seconds(10))
+    Process.sleep(Application.fetch_env!(:todo, :todo_metrics_interval))
     IO.inspect(collect_metrics())
     loop()
   end
