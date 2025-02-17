@@ -17,8 +17,8 @@ config :todo, :database, db_folder: db_folder
 # Shorter server timeout in local dev
 todo_server_expiry =
   if config_env() != :dev,
-    do: System.get_env("TODO_SERVER_EXPIRY", "60"),
-    else: System.get_env("TODO_SERVER_EXPIRY", "10")
+    do: System.get_env("TODO_SERVER_EXPIRY", "6000"),
+    else: System.get_env("TODO_SERVER_EXPIRY", "1000")
 
 config :todo, todo_server_expiry: :timer.seconds(String.to_integer(todo_server_expiry))
 
