@@ -26,7 +26,9 @@ defmodule SimpleRegistry do
   @impl GenServer
   def handle_call({:register, process_key, pid}, _, registry) do
     case Map.get(registry, process_key) do
-      nil ->  {:reply, :ok, Map.put(registry, process_key, pid)}
+      nil ->  
+        Process.link(pid)
+        {:reply, :ok, Map.put(registry, process_key, pid)}
       _ -> {:reply, :error, registry}
     end
    
@@ -39,11 +41,13 @@ defmodule SimpleRegistry do
 
   @impl GenServer
   def handle_info({:EXIT, pid, _reason}, registry) do
+    IO.puts "#{inspect self()} received {:EXIT, #{inspect pid}, #{inspect _reason}}"
     {:noreply, deregister_pid(registry, pid)}
   end
 
   defp deregister_pid(registry, pid) do
     registry
     |> Map.reject(fn {_key, registered_process} -> registered_process == pid end)
+    |> Enum.into(%{})
   end
 end
